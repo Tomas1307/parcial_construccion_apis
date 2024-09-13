@@ -19,7 +19,7 @@ export class ClubSocioService {
         private readonly socioRepository: Repository<SocioEntity>
     ) {}
 
-    async addSocioClub(clubId: string, socioId: string): Promise<ClubEntity> {
+    async addMemberToClub(clubId: string, socioId: string): Promise<ClubEntity> {
         const club: ClubEntity = await this.clubRepository.findOne({where: {id: clubId}, relations: ["socios"]});
         if (!club)
           throw new BusinessLogicException("The club with the given id was not found", BusinessError.NOT_FOUND);
@@ -32,7 +32,7 @@ export class ClubSocioService {
         return await this.clubRepository.save(club);
     }
 
-    async findSocioByClubIdSocioId(clubId: string, socioId: string): Promise<SocioEntity> {
+    async findMemberFromClub(clubId: string, socioId: string): Promise<SocioEntity> {
         const socio: SocioEntity = await this.socioRepository.findOne({where: {id: socioId}});
         if (!socio)
           throw new BusinessLogicException("The socio with the given id was not found", BusinessError.NOT_FOUND)
@@ -49,7 +49,7 @@ export class ClubSocioService {
         return clubSocio;
     }
 
-    async findSociosByClubId(clubId: string): Promise<SocioEntity[]> {
+    async findMembersFromClub(clubId: string): Promise<SocioEntity[]> {
         const club: ClubEntity = await this.clubRepository.findOne({where: {id: clubId}, relations: ["socios"]});
         if (!club)
           throw new BusinessLogicException("The club with the given id was not found", BusinessError.NOT_FOUND)
@@ -57,7 +57,7 @@ export class ClubSocioService {
         return club.socios;
     }
 
-    async associateSociosClub(clubId: string, socios: SocioEntity[]): Promise<ClubEntity> {
+    async updateMembersFromClub(clubId: string, socios: SocioEntity[]): Promise<ClubEntity> {
         const club: ClubEntity = await this.clubRepository.findOne({where: {id: clubId}, relations: ["socios"]});
     
         if (!club)
@@ -73,7 +73,7 @@ export class ClubSocioService {
         return await this.clubRepository.save(club);
     }
 
-    async deleteSocioClub(clubId: string, socioId: string){
+    async deleteMemberFromClub(clubId: string, socioId: string){
         const socio: SocioEntity = await this.socioRepository.findOne({where: {id: socioId}});
         if (!socio)
           throw new BusinessLogicException("The socio with the given id was not found", BusinessError.NOT_FOUND)
