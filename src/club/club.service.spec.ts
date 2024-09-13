@@ -31,7 +31,7 @@ describe('ClubService', () => {
     for (let i = 0; i < 5; i++) {
       const club: ClubEntity = await repository.save({
         name: faker.company.name(),
-        foundationDate: faker.date.recent(),
+        foundingDate: faker.date.recent(),
         image: faker.image.url(),
         description: faker.lorem.paragraph(),
       });
@@ -58,7 +58,7 @@ describe('ClubService', () => {
     );
     expect(club).not.toBeNull();
     expect(club.name).toEqual(storedClub.name);
-    expect(club.foundationDate).toEqual(storedClub.foundationDate);
+    expect(club.foundingDate).toEqual(storedClub.foundingDate);
     expect(club.image).toEqual(storedClub.image);
     expect(club.description).toEqual(storedClub.description);
   });
@@ -74,7 +74,7 @@ describe('ClubService', () => {
     const club: ClubEntity = {
       id: '',
       name: faker.company.name(),
-      foundationDate: faker.date.recent(),
+      foundingDate: faker.date.recent(),
       image: faker.image.url(),
       description: faker.lorem.paragraph(),
       socios: []
@@ -88,7 +88,7 @@ describe('ClubService', () => {
       await repository.findOne({ where: { id: newClub.id } });
     expect(storedClub).not.toBeNull();
     expect(storedClub.name).toEqual(newClub.name);
-    expect(storedClub.foundationDate).toEqual(newClub.foundationDate);
+    expect(storedClub.foundingDate).toEqual(newClub.foundingDate);
     expect(storedClub.image).toEqual(newClub.image);
     expect(storedClub.description).toEqual(newClub.description);
   });

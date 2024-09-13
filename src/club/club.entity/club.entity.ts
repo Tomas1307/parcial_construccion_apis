@@ -12,7 +12,7 @@ export class ClubEntity {
     name: string
 
     @Column()
-    foundationDate: Date;
+    foundingDate: Date;
 
     @Column()
     image: string;
