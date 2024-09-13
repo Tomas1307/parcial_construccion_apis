@@ -45,7 +45,7 @@ describe('ClubSocioService', () => {
       name: faker.company.name(),
       foundingDate: faker.date.recent(),
       image: faker.image.url(),
-      description: faker.lorem.paragraph(),
+      description: faker.lorem.paragraph(1),
       socios: sociosList
     })
   }
@@ -61,7 +61,7 @@ describe('ClubSocioService', () => {
       name: faker.company.name(),
       foundingDate: faker.date.recent(),
       image: faker.image.url(),
-      description: faker.lorem.paragraph()
+      description: faker.lorem.paragraph(1)
     })
 
     const result: ClubEntity = await service.addSocioClub(newClub.id, newSocio.id);
@@ -78,7 +78,7 @@ describe('ClubSocioService', () => {
       name: faker.company.name(),
       foundingDate: faker.date.recent(),
       image: faker.image.url(),
-      description: faker.lorem.paragraph()
+      description: faker.lorem.paragraph(1)
     })
 
     await expect(() => service.addSocioClub(newClub.id, "0")).rejects.toHaveProperty("message", "The socio with the given id was not found");

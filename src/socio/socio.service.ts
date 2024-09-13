@@ -27,11 +27,19 @@ export class SocioService {
     }
 
     async create(socio: SocioEntity): Promise<SocioEntity> {
+        if (!socio.email.includes('@')) {
+            throw new BusinessLogicException("Invalid email format", BusinessError.PRECONDITION_FAILED);
+        }
         return await this.socioRepository.save(socio);
     }
 
     async update(id: string, socio: SocioEntity): Promise<SocioEntity> {
         const persistedSocio: SocioEntity = await this.socioRepository.findOne({where:{id}});
+        
+        if (!socio.email.includes('@')) {
+            throw new BusinessLogicException("Invalid email format", BusinessError.PRECONDITION_FAILED);
+        }
+        
         if (!persistedSocio)
           throw new BusinessLogicException("The socio with the given id was not found", BusinessError.NOT_FOUND);
        

@@ -33,7 +33,7 @@ describe('ClubService', () => {
         name: faker.company.name(),
         foundingDate: faker.date.recent(),
         image: faker.image.url(),
-        description: faker.lorem.paragraph(),
+        description: faker.lorem.paragraph(1),
       });
       clubsList.push(club);
     }
@@ -76,7 +76,7 @@ describe('ClubService', () => {
       name: faker.company.name(),
       foundingDate: faker.date.recent(),
       image: faker.image.url(),
-      description: faker.lorem.paragraph(),
+      description: faker.lorem.paragraph(1),
       socios: []
     };
 
