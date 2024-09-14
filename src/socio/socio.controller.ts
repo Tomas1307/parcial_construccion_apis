@@ -6,7 +6,7 @@ import { BusinessErrorsInterceptor } from '../shared/interceptors/busines-errors
 import { Body, Delete, Get, HttpCode, Param, Post, Put } from '@nestjs/common';
 import { SocioDto } from './socio.dto/socio.dto';
 
-@Controller('socios')
+@Controller('members')
 @UseInterceptors(BusinessErrorsInterceptor)
 export class SocioController {
 
@@ -19,8 +19,8 @@ export class SocioController {
       return await this.socioService.findAll();
     }
   
-    @Get(':socioId')
-    async findOne(@Param('socioId') socioId: string) {
+    @Get(':memberId')
+    async findOne(@Param('memberId') socioId: string) {
       return await this.socioService.findOne(socioId);
     }
   
@@ -30,15 +30,15 @@ export class SocioController {
       return await this.socioService.create(socio);
     }
   
-    @Put(':socioId')
-    async update(@Param('socioId') socioId: string, @Body() socioDto: SocioDto) {
+    @Put(':memberId')
+    async update(@Param('memberId') socioId: string, @Body() socioDto: SocioDto) {
       const socio: SocioEntity = plainToInstance(SocioEntity, socioDto);
       return await this.socioService.update(socioId, socio);
     }
   
-    @Delete(':socioId')
+    @Delete(':memberId')
     @HttpCode(204)
-    async delete(@Param('socioId') socioId: string) {
+    async delete(@Param('memberId') socioId: string) {
       return await this.socioService.delete(socioId);
     }
   

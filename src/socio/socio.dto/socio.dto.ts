@@ -1,5 +1,7 @@
 
 import { IsNotEmpty,IsString,IsUrl,IsDate } from "class-validator";
+import { Type } from "class-transformer";
+
 export class SocioDto {
 
     @IsString()
@@ -11,6 +13,7 @@ export class SocioDto {
     readonly email: string;
 
     @IsDate()
+    @Type(() => Date)
     @IsNotEmpty()
     readonly birthdate: Date;
 }

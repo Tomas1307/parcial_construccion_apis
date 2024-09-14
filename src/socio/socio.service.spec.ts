@@ -42,14 +42,14 @@ describe('SocioService', () => {
     expect(service).toBeDefined();
   });
 
-  it('findAll should return all socios', async () => {
+  it('findAll should return all members', async () => {
     const socios: SocioEntity[] =
       await service.findAll();
     expect(socios).not.toBeNull();
     expect(socios).toHaveLength(sociosList.length);
   });
 
-  it('findOne should return a socio by id', async () => {
+  it('findOne should return a member by id', async () => {
     const storedSocio: SocioEntity =
       sociosList[0];
     const socio: SocioEntity = await service.findOne(
@@ -61,14 +61,14 @@ describe('SocioService', () => {
     expect(socio.birthdate).toEqual(storedSocio.birthdate);
   });
 
-  it('findOne should throw an exception for an invalid socio', async () => {
+  it('findOne should throw an exception for an invalid member', async () => {
     await expect(() => service.findOne('0')).rejects.toHaveProperty(
       'message',
-      'The socio with the given id was not found',
+      'The member with the given id was not found',
     );
   });
 
-  it('create should return a new socio', async () => {
+  it('create should return a new member', async () => {
     const socio: SocioEntity = {
       id: '',
       username: faker.internet.userName(),
@@ -89,7 +89,7 @@ describe('SocioService', () => {
     expect(storedSocio.birthdate).toEqual(newSocio.birthdate);
   });
 
-  it('update should modify a socio', async () => {
+  it('update should modify a member', async () => {
     const socio: SocioEntity =
       sociosList[0];
     socio.username = 'New name';
@@ -104,7 +104,7 @@ describe('SocioService', () => {
     expect(storedSocio.username).toEqual(socio.username);
   });
 
-  it('update should throw an exception for an invalid socio', async () => {
+  it('update should throw an exception for an invalid member', async () => {
     let socio: SocioEntity =
       sociosList[0];
     socio = {
@@ -115,11 +115,11 @@ describe('SocioService', () => {
       service.update('0', socio),
     ).rejects.toHaveProperty(
       'message',
-      'The socio with the given id was not found',
+      'The member with the given id was not found',
     );
   });
 
-  it('delete should remove a socio', async () => {
+  it('delete should remove a member', async () => {
     const socio: SocioEntity =
       sociosList[0];
     await service.delete(socio.id);
@@ -129,13 +129,13 @@ describe('SocioService', () => {
     expect(deletedSocio).toBeNull();
   });
 
-  it('delete should throw an exception for an invalid socio', async () => {
+  it('delete should throw an exception for an invalid member', async () => {
     const socio: SocioEntity =
       sociosList[0];
     await service.delete(socio.id);
     await expect(() => service.delete('0')).rejects.toHaveProperty(
       'message',
-      'The socio with the given id was not found',
+      'The member with the given id was not found',
     );
   });
 });
