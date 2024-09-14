@@ -1,11 +1,65 @@
 {
 	"info": {
-		"_postman_id": "c8d59cd7-e85a-4c25-b0b6-3a6629413492",
-		"name": "Member",
+		"_postman_id": "5a60a313-9487-4585-8606-d98ab174bd12",
+		"name": "Club - Member",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
 		"_exporter_id": "37902115"
 	},
 	"item": [
+		{
+			"name": "Add Club",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"var jsonData = pm.response.json();\r",
+							"pm.environment.set(\"CLUB_ID\", jsonData.id);\r",
+							"pm.test(\"Status code is 201\", function () {\r",
+							"    pm.response.to.have.status(201);\r",
+							"});\r",
+							""
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				},
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							""
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"name\": \"La Guadora\",\r\n    \"foundingDate\": \"2024-08-25\",\r\n    \"image\": \"https://www.google.com/url?sa=i&url=https%3A%2F%2Fwww.pexels.com%2Fes-es%2Fbuscar%2Fclub%2F&psig=AOvVaw2ahrrO99rxQ6LnuQz0SFTk&ust=1726358370534000&source=images&cd=vfe&opi=89978449&ved=0CBQQjRxqFwoTCMD4z5yQwYgDFQAAAAAdAAAAABAE\",\r\n    \"description\": \"Test 1\"\r\n}\r\n",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://{{BASE_URL}}/clubs",
+					"protocol": "http",
+					"host": [
+						"{{BASE_URL}}"
+					],
+					"path": [
+						"clubs"
+					]
+				}
+			},
+			"response": []
+		},
 		{
 			"name": "Add Member",
 			"event": [
@@ -13,12 +67,12 @@
 					"listen": "test",
 					"script": {
 						"exec": [
-							"var data = pm.response.json()\r",
-							"pm.globals.set(\"MEMBER_ID\", data.id);\r",
-							"\r",
+							"var jsonData = pm.response.json();\r",
+							"pm.environment.set(\"MEMBER_ID\", jsonData.id);\r",
 							"pm.test(\"Status code is 201\", function () {\r",
 							"    pm.response.to.have.status(201);\r",
-							"});"
+							"});\r",
+							""
 						],
 						"type": "text/javascript",
 						"packages": {}
@@ -61,18 +115,18 @@
 			"response": []
 		},
 		{
-			"name": "Add an invalid member",
+			"name": "Add Member 2",
 			"event": [
 				{
 					"listen": "test",
 					"script": {
 						"exec": [
-							"var data = pm.response.json()\r",
-							"pm.globals.set(\"MEMBER_IDF\", data.id);\r",
-							"\r",
+							"var jsonData = pm.response.json();\r",
+							"pm.environment.set(\"MEMBER_ID2\", jsonData.id);\r",
 							"pm.test(\"Status code is 201\", function () {\r",
 							"    pm.response.to.have.status(201);\r",
-							"});"
+							"});\r",
+							""
 						],
 						"type": "text/javascript",
 						"packages": {}
@@ -94,7 +148,7 @@
 				"header": [],
 				"body": {
 					"mode": "raw",
-					"raw": "{\r\n    \"username\": \"GatoNegro\",\r\n    \"email\": \"gatonegro uniandes.edu.co\",\r\n    \"birthdate\": \"2002-07-13\"\r\n}\r\n",
+					"raw": "{\r\n    \"username\": \"GatoNegro\",\r\n    \"email\": \"gatonegro@uniandes.edu.co\",\r\n    \"birthdate\": \"2002-07-13\"\r\n}\r\n",
 					"options": {
 						"raw": {
 							"language": "json"
@@ -115,17 +169,87 @@
 			"response": []
 		},
 		{
-			"name": "Get members",
+			"name": "Add a member to a club",
 			"event": [
 				{
 					"listen": "test",
 					"script": {
 						"exec": [
-							"pm.test('Number of members > ' + 0, function () {\r",
-							"    var data = pm.response.json()\r",
-							"    pm.expect(data.length).to.greaterThan(0)\r",
+							"pm.test(\"Status code is 200\", function(){\r",
+							"    pm.response.to.have.status(201);\r",
+							"});"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"url": {
+					"raw": "http://{{BASE_URL}}/clubs/{{CLUB_ID}}/members/{{MEMBER_ID}}",
+					"protocol": "http",
+					"host": [
+						"{{BASE_URL}}"
+					],
+					"path": [
+						"clubs",
+						"{{CLUB_ID}}",
+						"members",
+						"{{MEMBER_ID}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Add an invalid member to a club",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 404\", function () {\r",
+							"    pm.response.to.have.status(404);\r",
 							"});\r",
 							"\r",
+							"pm.test(\"Get expected error message\", function () {\r",
+							"    var data = pm.response.json();\r",
+							"    pm.expect(data.message).to.eql(\"The member with the given id was not found\");\r",
+							"});"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"url": {
+					"raw": "http://{{BASE_URL}}/clubs/{{CLUB_ID}}/members/00000000-0000-0000-0000-000000000000",
+					"protocol": "http",
+					"host": [
+						"{{BASE_URL}}"
+					],
+					"path": [
+						"clubs",
+						"{{CLUB_ID}}",
+						"members",
+						"00000000-0000-0000-0000-000000000000"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get all members from a club",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
 							"pm.test(\"Status code is 200\", function () {\r",
 							"    pm.response.to.have.status(200);\r",
 							"});"
@@ -139,12 +263,14 @@
 				"method": "GET",
 				"header": [],
 				"url": {
-					"raw": "http://{{BASE_URL}}/members",
+					"raw": "http://{{BASE_URL}}/clubs/{{CLUB_ID}}/members",
 					"protocol": "http",
 					"host": [
 						"{{BASE_URL}}"
 					],
 					"path": [
+						"clubs",
+						"{{CLUB_ID}}",
 						"members"
 					]
 				}
@@ -152,7 +278,7 @@
 			"response": []
 		},
 		{
-			"name": "Get member",
+			"name": "Get a member of a club",
 			"event": [
 				{
 					"listen": "test",
@@ -171,13 +297,15 @@
 				"method": "GET",
 				"header": [],
 				"url": {
-					"raw": "http://{{BASE_URL}}/members/{{MEMBER_ID}}",
+					"raw": "http://{{BASE_URL}}/clubs/{{CLUB_ID}}/restaurants/{{MEMBER_ID}}",
 					"protocol": "http",
 					"host": [
 						"{{BASE_URL}}"
 					],
 					"path": [
-						"members",
+						"clubs",
+						"{{CLUB_ID}}",
+						"restaurants",
 						"{{MEMBER_ID}}"
 					]
 				}
@@ -185,19 +313,19 @@
 			"response": []
 		},
 		{
-			"name": "Get member that does not exist Copy",
+			"name": "Get a member non-associated to a club",
 			"event": [
 				{
 					"listen": "test",
 					"script": {
 						"exec": [
-							"pm.test(\"Status code is 404\", function () {\r",
+							"pm.test(\"Status code is 412\", function () {\r",
 							"    pm.response.to.have.status(404);\r",
 							"});\r",
 							"\r",
 							"pm.test(\"Get expected error message\", function () {\r",
 							"    var data = pm.response.json();\r",
-							"    pm.expect(data.message).to.eql(\"The member with the given id was not found\");\r",
+							"    pm.expect(data.message).to.eql(\"The member with the given id is not associated to the club\");\r",
 							"});"
 						],
 						"type": "text/javascript",
@@ -209,21 +337,23 @@
 				"method": "GET",
 				"header": [],
 				"url": {
-					"raw": "http://{{BASE_URL}}/members/00000000-0000-0000-0000-000000000000",
+					"raw": "http://{{BASE_URL}}/clubs/{{CLUB_ID}}/members/{{MEMBER_ID2}}",
 					"protocol": "http",
 					"host": [
 						"{{BASE_URL}}"
 					],
 					"path": [
+						"clubs",
+						"{{CLUB_ID}}",
 						"members",
-						"00000000-0000-0000-0000-000000000000"
+						"{{MEMBER_ID2}}"
 					]
 				}
 			},
 			"response": []
 		},
 		{
-			"name": "Update member",
+			"name": "Update members of a club",
 			"event": [
 				{
 					"listen": "test",
@@ -243,7 +373,7 @@
 				"header": [],
 				"body": {
 					"mode": "raw",
-					"raw": "{\r\n    \"username\": \"Gato Blanco\",\r\n    \"email\": \"gatonblanco@uniandes.edu.co\",\r\n    \"birthdate\": \"2001-07-13\"\r\n}\r\n",
+					"raw": "[\r\n    {\r\n        \"id\":\"{{MEMBER_ID2}}\"\r\n    }\r\n]",
 					"options": {
 						"raw": {
 							"language": "json"
@@ -251,21 +381,22 @@
 					}
 				},
 				"url": {
-					"raw": "http://{{BASE_URL}}/members/{{MEMBER_ID}}",
+					"raw": "http://{{BASE_URL}}/clubs/{{CLUB_ID}}/members",
 					"protocol": "http",
 					"host": [
 						"{{BASE_URL}}"
 					],
 					"path": [
-						"members",
-						"{{MEMBER_ID}}"
+						"clubs",
+						"{{CLUB_ID}}",
+						"members"
 					]
 				}
 			},
 			"response": []
 		},
 		{
-			"name": "Update member that does not exist",
+			"name": "Update invalid member of a club",
 			"event": [
 				{
 					"listen": "test",
@@ -277,7 +408,7 @@
 							"\r",
 							"pm.test(\"Get expected error message\", function () {\r",
 							"    var data = pm.response.json();\r",
-							"    pm.expect(data.message).to.eql(\"The member with the given id was not found\");\r",
+							"    pm.expect(data.message).to.eql(\"The restaurant with the given id was not found\");\r",
 							"});"
 						],
 						"type": "text/javascript",
@@ -290,7 +421,7 @@
 				"header": [],
 				"body": {
 					"mode": "raw",
-					"raw": "{\r\n    \"username\": \"Gato Blanco\",\r\n    \"email\": \"gatonblanco@uniandes.edu.co\",\r\n    \"birthdate\": \"2001-07-13\"\r\n}\r\n",
+					"raw": "[\r\n    {\r\n        \"id\":\"00000000-0000-0000-0000-000000000000\"\r\n    }\r\n]",
 					"options": {
 						"raw": {
 							"language": "json"
@@ -298,21 +429,22 @@
 					}
 				},
 				"url": {
-					"raw": "http://{{BASE_URL}}/members/00000000-0000-0000-0000-000000000000",
+					"raw": "http://{{BASE_URL}}/clubs/{{CLUB_ID}}/members",
 					"protocol": "http",
 					"host": [
 						"{{BASE_URL}}"
 					],
 					"path": [
-						"members",
-						"00000000-0000-0000-0000-000000000000"
+						"clubs",
+						"{{CLUB_ID}}",
+						"members"
 					]
 				}
 			},
 			"response": []
 		},
 		{
-			"name": "Delete member",
+			"name": "Delete member of a club",
 			"event": [
 				{
 					"listen": "test",
@@ -331,33 +463,35 @@
 				"method": "DELETE",
 				"header": [],
 				"url": {
-					"raw": "http://{{BASE_URL}}/members/{{MEMBER_ID}}",
+					"raw": "http://{{BASE_URL}}/clubs/{{CLUB_ID}}/members/{{MEMBER_ID2}}",
 					"protocol": "http",
 					"host": [
 						"{{BASE_URL}}"
 					],
 					"path": [
+						"clubs",
+						"{{CLUB_ID}}",
 						"members",
-						"{{MEMBER_ID}}"
+						"{{MEMBER_ID2}}"
 					]
 				}
 			},
 			"response": []
 		},
 		{
-			"name": "Delete member that does not exist",
+			"name": "Delete member non-associated to a club",
 			"event": [
 				{
 					"listen": "test",
 					"script": {
 						"exec": [
-							"pm.test(\"Status code is 404\", function () {\r",
+							"pm.test(\"Status code is 412\", function () {\r",
 							"    pm.response.to.have.status(404);\r",
 							"});\r",
 							"\r",
 							"pm.test(\"Get expected error message\", function () {\r",
 							"    var data = pm.response.json();\r",
-							"    pm.expect(data.message).to.eql(\"The member with the given id was not found\");\r",
+							"    pm.expect(data.message).to.eql(\"The member with the given id is not associated to the club\");\r",
 							"});"
 						],
 						"type": "text/javascript",
@@ -369,14 +503,16 @@
 				"method": "DELETE",
 				"header": [],
 				"url": {
-					"raw": "http://{{BASE_URL}}/members/00000000-0000-0000-0000-000000000000",
+					"raw": "http://{{BASE_URL}}/clubs/{{CLUB_ID}}/members/{{MEMBER_ID}}",
 					"protocol": "http",
 					"host": [
 						"{{BASE_URL}}"
 					],
 					"path": [
+						"clubs",
+						"{{CLUB_ID}}",
 						"members",
-						"00000000-0000-0000-0000-000000000000"
+						"{{MEMBER_ID}}"
 					]
 				}
 			},
